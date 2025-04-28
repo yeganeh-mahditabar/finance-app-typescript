@@ -20,6 +20,13 @@ function ExpenseTracker() {
     setText("")
     setAmount("")
   }
+
+  function deleteTransaction(id: number){
+    setTransactions(transactions.filter((item) => item.id != id));
+  }
+
+  let total = 0;
+  transactions.map((item)=>total +=item.amount)
     
   return (
     <div className="expense-container">
@@ -35,6 +42,13 @@ function ExpenseTracker() {
                 <button onClick={addTransaction}>Add Transaction</button>
             </div>
             <ul className="transactions">
+                {
+                    transactions.map((item, id)=>(
+                        <li key={id}>{item.text} - {item.amount}
+                        <button onClick={()=>deleteTransaction(item.id)}>❌</button>
+                        </li>
+                    ))
+                }
             </ul>
         </div>
   )
