@@ -1,13 +1,20 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Transaction } from "./Transactions"
 
 
 function ExpenseTracker() {
   
-  const [transactions, setTransactions] = useState<Transaction[]>([])
+  const [transactions, setTransactions] = useState<Transaction[]>(()=>{
+    const savedTran = localStorage.getItem("transactions")
+    return savedTran ? JSON.parse(savedTran) : []
+  })
 
   const [text, setText] = useState("")
   const [amount, setAmount] = useState("")
+
+  useEffect(()=>{
+    localStorage.setItem("transactions", JSON.stringify(transactions))
+  }, [transactions])
 
   function addTransaction(){
     if(!text || !amount) return
