@@ -2,7 +2,7 @@
   max-width: 400px;
   margin: auto;
   text-align: center;
-  background: #222;
+  background: #5874d3;
   color: white;
   padding: 20px;
   border-radius: 10px;
@@ -48,7 +48,7 @@ button:hover {
 }
 
 .transactions li {
-  background: #333;
+  background: #b8eed8;
   margin: 5px 0;
   padding: 10px;
   display: flex;
@@ -67,6 +67,6 @@ button:hover {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: #111;
+  background: #b8eed8;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }

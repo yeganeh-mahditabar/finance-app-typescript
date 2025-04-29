@@ -54,7 +54,7 @@ function ExpenseTracker() {
             <ul className="transactions">
                 {
                     transactions.map((item, id)=>(
-                        <li key={id}>{item.text} - {item.amount}
+                        <li className={item.amount > 0 ? "income" : "expense"} key={id}>{item.text} - {item.amount}
                         <button onClick={()=>deleteTransaction(item.id)}>❌</button>
                         </li>
                     ))
