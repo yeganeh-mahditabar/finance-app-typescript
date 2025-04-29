@@ -26,15 +26,25 @@ function ExpenseTracker() {
   }
 
   let total = 0;
-  transactions.map((item)=>total +=item.amount)
+  transactions.map((item)=>total += item.amount);
+
+  let income = 0;
+  let expense = 0;
+  transactions.map((item)=>{
+    if(item.amount>0){
+      income += item.amount
+    }else{
+      expense += item.amount
+    }
+  })
     
   return (
     <div className="expense-container">
             <h2>💰 Expense Tracker</h2>
-            <h3>Balance: $0</h3>
+            <h3>Balance: ${total}</h3>
             <div className="summary">
-                <div className="income">Income: $0</div>
-                <div className="expense">Expense: $0</div>
+                <div className="income">Income: ${income}</div>
+                <div className="expense">Expense: ${expense}</div>
             </div>
             <div className="add-transaction">
                 <input type="text" placeholder="Enter description" value={text} onChange={(e)=>setText(e.target.value)} />
