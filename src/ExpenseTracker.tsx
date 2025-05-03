@@ -1,31 +1,32 @@
-import { useEffect, useState } from "react"
-import { Transaction } from "./Transactions"
+import { useEffect, useState } from "react";
+import { Transaction } from "./Transactions";
+import { getData, setData, LOCAL_STORAGE_KEY } from "./localStorage";
+
 
 
 function ExpenseTracker() {
   
-  const [transactions, setTransactions] = useState<Transaction[]>(()=>{
-    const savedTran = localStorage.getItem("transactions")
-    return savedTran ? JSON.parse(savedTran) : []
-  })
+  const [transactions, setTransactions] = useState<Transaction[]>(() => {
+    return getData<Transaction[]>(LOCAL_STORAGE_KEY) || [];
+  });
 
-  const [text, setText] = useState("")
-  const [amount, setAmount] = useState("")
+  const [text, setText] = useState("");
+  const [amount, setAmount] = useState("");
 
   useEffect(()=>{
-    localStorage.setItem("transactions", JSON.stringify(transactions))
-  }, [transactions])
+    setData(LOCAL_STORAGE_KEY, transactions);
+  }, [transactions]);
 
   function addTransaction(){
-    if(!text || !amount) return
+    if(!text || !amount) return;
     const newTransaction : Transaction = {
         id: Date.now(),
         text,
         amount: parseFloat(amount)
-    }
-    setTransactions([newTransaction, ...transactions])
-    setText("")
-    setAmount("")
+    };
+    setTransactions([newTransaction, ...transactions]);
+    setText("");
+    setAmount("");
   }
 
   function deleteTransaction(id: number){
@@ -61,7 +62,7 @@ function ExpenseTracker() {
             <ul className="transactions">
                 {
                     transactions.map((item, id)=>(
-                        <li className={item.amount > 0 ? "income" : "expense"} key={id}>{item.text} - {item.amount}
+                        <li className={item.amount > 0 ? "income" : "expense"} key={id}>{item.text} * {item.amount}
                         <button onClick={()=>deleteTransaction(item.id)}>❌</button>
                         </li>
                     ))
