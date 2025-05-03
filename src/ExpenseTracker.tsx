@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { Transaction } from "./Transactions";
 import { getData, setData, LOCAL_STORAGE_KEY } from "./localStorage";
 
@@ -13,10 +13,7 @@ function ExpenseTracker() {
   const [text, setText] = useState("");
   const [amount, setAmount] = useState("");
 
-  useEffect(()=>{
-    setData(LOCAL_STORAGE_KEY, transactions);
-  }, [transactions]);
-
+  
   function addTransaction(){
     if(!text || !amount) return;
     const newTransaction : Transaction = {
@@ -24,13 +21,17 @@ function ExpenseTracker() {
         text,
         amount: parseFloat(amount)
     };
-    setTransactions([newTransaction, ...transactions]);
+    const updated = [newTransaction, ...transactions];
+    setTransactions(updated);
+    setData(LOCAL_STORAGE_KEY, updated);
     setText("");
     setAmount("");
   }
 
   function deleteTransaction(id: number){
-    setTransactions(transactions.filter((item) => item.id != id));
+    const updated = transactions.filter((item) => item.id !== id);
+    setTransactions(updated);
+    setData(LOCAL_STORAGE_KEY, updated);
   }
 
   let total = 0;
