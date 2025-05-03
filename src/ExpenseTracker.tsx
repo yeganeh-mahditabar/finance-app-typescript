@@ -1,4 +1,4 @@
-import {  useState } from "react";
+import {  useMemo, useState } from "react";
 import { Transaction } from "./Transactions";
 import { getData, setData, LOCAL_STORAGE_KEY } from "./localStorage";
 
@@ -34,18 +34,23 @@ function ExpenseTracker() {
     setData(LOCAL_STORAGE_KEY, updated);
   }
 
-  let total = 0;
-  transactions.map((item)=>total += item.amount);
-
-  let income = 0;
-  let expense = 0;
-  transactions.map((item)=>{
-    if(item.amount>0){
-      income += item.amount
-    }else{
-      expense += item.amount
-    }
-  })
+  const total = useMemo(() => {
+    return transactions.reduce((sum, item) => sum + item.amount, 0);
+  }, [transactions]);
+  
+  const { income, expense } = useMemo(() => {
+    return transactions.reduce(
+      (acc, item) => {
+        if (item.amount > 0) {
+          acc.income += item.amount;
+        } else {
+          acc.expense += item.amount;
+        }
+        return acc;
+      },
+      { income: 0, expense: 0 }
+    );
+  }, [transactions]);
     
   return (
     <div className="expense-container">
